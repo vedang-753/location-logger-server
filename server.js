@@ -6,7 +6,13 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 // Middleware
-app.use(cors());
+// ✅ Allow only your Netlify frontend
+app.use(cors({
+  origin: "https://locationlogger.netlify.app", 
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"]
+}));
+
 app.use(bodyParser.json());
 
 let locations = []; // in-memory storage (use DB in prod)
@@ -32,4 +38,5 @@ app.get("/locations", (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+
 
